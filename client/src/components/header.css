@@ -1,0 +1,24 @@
+
+
+.menu{
+    display: flex;
+    justify-content: end;
+}
+
+.menu-item{
+ margin-left: 15px;
+}
+
+.colMenu{
+    display: flex;
+    justify-content: end;
+}
+
+@media (max-width: 500px) {
+    .logo{
+        justify-content: center;
+    }
+    .colMenu{
+        justify-content: center;
+    }
+}
