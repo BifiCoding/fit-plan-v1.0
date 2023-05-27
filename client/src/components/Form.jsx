@@ -1,9 +1,22 @@
 import React, { useState, useEffect} from 'react';
-import './form.css';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { PDFDownloadLink } from '@react-pdf/renderer';
-import PdfDoc from './PdfDoc';
 import { Container } from 'react-bootstrap';
+
+import { setGender,
+  setAge,
+  setHeight,
+  setHeightUnit,
+  setWeight,
+  setWeightUnit,
+  setLifestyle,
+  setWant,
+  setSteps,
+  setAllergy } from '../toolkitRedux/toolkitSlice';
+
+import './form.css';
+import PdfDoc from './PdfDoc';
 import Loader from './Loader';
 
 
@@ -15,16 +28,30 @@ function Form() {
   const [messages, setMessages] = useState([]);
   const [serverMessages, setServerMessages] = useState([]);
 
-  const [gender, setGender] = useState('');
-  const [age, setAge] = useState('');
-  const [height, setHeight] = useState('');
-  const [heightUnit, setHeightUnit] = useState('cm');
-  const [weightUnit, setWeightUnit] = useState('kg');
-  const [weight, setWeight] = useState('');
-  const [lifestyle, setLifestyle] = useState('');
-  const [want, setWant] = useState('');
-  const [steps, setSteps] = useState('');
-  const [allergy, setAllergy] = useState('');
+  // const [gender, setGender] = useState('');
+  // const [age, setAge] = useState('');
+  // const [height, setHeight] = useState('');
+  // const [heightUnit, setHeightUnit] = useState('cm');
+  // const [weight, setWeight] = useState('');
+  // const [weightUnit, setWeightUnit] = useState('kg');
+  // const [lifestyle, setLifestyle] = useState('');
+  // const [want, setWant] = useState('');
+  // const [steps, setSteps] = useState('');
+  // const [allergy, setAllergy] = useState('');
+
+  const dispatch = useDispatch()
+
+  const gender = useSelector( state => state.toolkit.gender)
+  const age = useSelector( state => state.toolkit.age)
+  const height = useSelector( state => state.toolkit.height)
+  const heightUnit = useSelector( state => state.toolkit.heightUnit)
+  const weight = useSelector( state => state.toolkit.weight)
+  const weightUnit = useSelector( state => state.toolkit.weightUnit)
+  const lifestyle = useSelector( state => state.toolkit.lifestyle)
+  const want = useSelector( state => state.toolkit.want)
+  const steps = useSelector( state => state.toolkit.steps)
+  const allergy = useSelector( state => state.toolkit.allergy)
+  
 
   const navigateTo = useNavigate();
   
@@ -52,15 +79,7 @@ function Form() {
 
 
   const handleSend = async event => {
-    navigateTo(`/payment`);
     event.preventDefault();
-    console.log(`Age: ${age},
-      Height: ${height} ${heightUnit}, 
-      Weight: ${weight} ${weightUnit}, 
-      Lifestyle: ${lifestyle}, 
-      ${want}, 
-      Number of steps per day: ${steps}, 
-      Allergy, health problems or dietary restrictions: ${allergy} ,`);
 
     const newMessage = {
       message: prompt,
@@ -125,11 +144,10 @@ function Form() {
   return (
     <div>
       <Container>
-        
         <form className='form-parent shadow'>
           <select
             className='select'
-            onChange={e => setGender(e.target.value)}
+            onChange={e => dispatch(setGender(e.target.value))}
             style={{ color: gender ? 'black' : '#666666' }}
           >
             <option value='' disabled selected hidden>
@@ -143,7 +161,7 @@ function Form() {
 
           <input
             value={age}
-            onChange={e => setAge(e.target.value)}
+            onChange={e => dispatch(setAge(e.target.value))}
             placeholder='Age'
             className='inp'
           />
@@ -151,13 +169,13 @@ function Form() {
           <div className='hw-block'>
             <input
               value={height}
-              onChange={e => setHeight(e.target.value)}
+              onChange={e => dispatch(setHeight(e.target.value))}
               placeholder='Height'
               className='hw-inp'
             />
             <select
               className='select-hw'
-              onChange={e => setHeightUnit(e.target.value)}
+              onChange={e => dispatch(setHeightUnit(e.target.value))}
               style={{ paddingLeft: '1px' }}
             >
               <option value='cm'>cm</option>
@@ -167,13 +185,13 @@ function Form() {
           <div className='hw-block'>
             <input
               value={weight}
-              onChange={e => setWeight(e.target.value)}
+              onChange={e => dispatch(setWeight(e.target.value))}
               placeholder='Weight'
               className='hw-inp'
             />
             <select
               className='select-hw'
-              onChange={e => setWeightUnit(e.target.value)}
+              onChange={e => dispatch(setWeightUnit(e.target.value))}
             >
               <option value='kg'>kg</option>
               <option value='lb'>lb</option>
@@ -182,7 +200,7 @@ function Form() {
 
           <select
             className='select'
-            onChange={e => setLifestyle(e.target.value)}
+            onChange={e => dispatch(setLifestyle(e.target.value))}
             style={{ color: lifestyle ? 'black' : '#666666' }}
           >
             <option value='' disabled selected hidden>
@@ -195,7 +213,7 @@ function Form() {
 
           <select
             className='select'
-            onChange={e => setWant(e.target.value)}
+            onChange={e => dispatch(setWant(e.target.value))}
             style={{ color: want ? 'black' : '#666666' }}
           >
             <option value='' disabled selected hidden>
@@ -208,7 +226,7 @@ function Form() {
 
           <input
             value={steps}
-            onChange={e => setSteps(e.target.value)}
+            onChange={e => dispatch(setSteps(e.target.value))}
             placeholder='Steps per day'
             className='inp'
           />
@@ -219,7 +237,7 @@ function Form() {
             rows='5'
             placeholder='Allergy, health problems or dietary restrictions'
             value={allergy}
-            onChange={ e => setAllergy(e.target.value)}
+            onChange={ e => dispatch(setAllergy(e.target.value))}
           ></textarea>
 
           <button onClick={handlePayClick} className='send-btn'>
