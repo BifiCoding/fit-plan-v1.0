@@ -133,30 +133,16 @@ function FormPaid() {
       <Header/> 
 
       <button ref={buttonRef}  onClick={handleGenerete} style={{ display: 'none' }}></button>
-      <div style={{maxWidth: '500px', margin: '0 auto'}} className='shadow'>
-      {serverMessages.length > 0 ? (
-          <div className='download-parent'>
-            <PDFDownloadLink
-              document={<PdfDoc textDiet={serverMessages} />}
-              fileName='Diet by FitPlan'
-              onClick={e => e.preventDefault}
-              style={{ width: '100%', maxWidth: '300px' }}
-            >
-              <button className='download'>Download PDF</button>
-            </PDFDownloadLink>
-          </div>
-        ) : (
-          ''
-        )}
+      <div style={{maxWidth: '600px', margin: '0 auto'}} className='shadow'>
           
-          {typing && <div className="">
+          {typing && <div className="text-center">
           Please wait, your personalized diet is creating...
           <Loader />
           </div>}
           
 
         {serverMessages.length > 0 ? (
-      <div style={{backgroundColor: 'white'}} className='shadow mt-4 pt-3'>
+      <div style={{backgroundColor: ''}} className=' mt-4 pt-3'>
 
         {messages.map(
           (message, index) =>
@@ -188,7 +174,7 @@ function FormPaid() {
         </div>
         ):('')}
       
-      <Footer />
+      {/* <Footer /> */}
     </div>
     </div>
   )

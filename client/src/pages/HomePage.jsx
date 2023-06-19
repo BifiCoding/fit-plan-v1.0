@@ -87,7 +87,7 @@ function HomePage() {
               md={6}
               xs={12}
               className='img-about-block order-md-2'
-              style={{ padding: 0 }}
+              style={{ padding: 0,  maxWidth: '600px' }}
             >
               <Image src={GreenFresh} alt='' className='about-img' />
             </Col>

@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import './App.css';
 import Payment from './Payment';
-import Completion from './Completion';
 import HomePage from '../src/pages/HomePage'
 import FormPaid from '../src/pages/FormPaid'
 
