@@ -15,7 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/payment" element={<Payment />} />
-          <Route path="/paidform" element={<FormPaid />} />
+          <Route path="/formpaid" element={<FormPaid />} />
         </Routes>
       </BrowserRouter>
     </main>
