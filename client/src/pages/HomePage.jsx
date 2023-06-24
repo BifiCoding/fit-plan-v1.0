@@ -2,8 +2,8 @@ import React from 'react';
 import './homepage.css';
 
 import Form from '../components/Form';
-import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Loader from '../components/Loader';
 
 import {
   Col,
@@ -18,7 +18,6 @@ import {
 
 import logo from '../img/main-photo.jpeg';
 import GreenFresh from '../img/green-fresh.jpeg';
-import Plate from '../img/plate.webp';
 import Veges from '../img/veges.webp';
 import Weight from '../img/weight.webp'
 import AllergyFood from '../img/allergy-food.jpeg'
@@ -27,7 +26,6 @@ function HomePage() {
   const goToForm = () => {
     const element = document.getElementById('formHomePage');
     if (element) {
-      // 👇 Will scroll smoothly to the top of the next section
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
@@ -35,7 +33,7 @@ function HomePage() {
   return (
     <div>
       <div style={{ backgroundColor: '#eeeeee' }}>
-        <Header />
+     
       </div>
 
       <div className='header-slider shadow'>
@@ -232,7 +230,7 @@ function HomePage() {
       </Container>
 
       <Form className='mt-3' />
-      
+
       <Footer />
 
 

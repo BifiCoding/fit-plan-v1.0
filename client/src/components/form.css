@@ -48,6 +48,19 @@ select{
     outline: none;
     background-color: none;
   }
+  
+  .select-error{
+    width: 100%;
+    max-width: 300px; /* You can adjust the max-width to your liking */
+    padding: 5px 5px 5px;
+    border: none;
+    border-bottom: 1px solid #ff0000;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    box-shadow: none;
+    outline: none;
+    background-color: none;
+  }
 
   .select:checked{
     color: #000;
@@ -110,12 +123,13 @@ select{
 
   .select-hw{
     width: 20%;
-    padding: 6px;
+    padding: 6.5px;
   }
 
-  @media screen and (min-width: 200px) and (max-width: 500px) {
+  @media screen and (min-width: 200px) and (max-width: 580px) {
     .select-hw{
-      margin-top: 5.5px;
+      padding: 7px;
+      margin-top: 0;
     }
   }
 
@@ -168,5 +182,20 @@ select{
     outline: none;
     cursor: pointer;
     background-color: #9feb82d1;
-
 }
+
+.agreement{
+  display: flex;
+  max-width: 300px;
+  margin-bottom: 15px;
+}
+
+.agreement-checkbox{
+ width: 20px;
+ margin-right: 7px;
+}
+
+.checkbox-error {
+  color: red;
+}
+

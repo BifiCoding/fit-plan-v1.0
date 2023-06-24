@@ -214,7 +214,7 @@ function FormPaid() {
 
   return (
     <div>
-      <Header />
+      
       <div style={{ maxWidth: '600px', margin: '0 auto' }} className='shadow'>
         {typing && (
           <div className='text-center'>

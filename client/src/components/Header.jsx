@@ -6,9 +6,8 @@ import logo from '../img/Logo.png';
 import { useNavigate } from 'react-router-dom';
 
 function Header() {
-
   const navigateTo = useNavigate();
-  
+
   const handleClick = () => {
     navigateTo(`/`);
   };
@@ -17,7 +16,7 @@ function Header() {
     <>
       <Container>
         <Row>
-          <Col onClick={handleClick} style={{cursor: 'pointer'}}>
+          <Col onClick={handleClick} style={{ cursor: 'pointer' }}>
             <div className='logo mt-1' style={{ display: 'flex' }}>
               <img src={logo} style={{ height: '40px' }} />
               <div
@@ -31,42 +30,24 @@ function Header() {
               </div>
             </div>
           </Col>
-          {/* <Col>
-            <Navbar style={{ backgroundColor: '#eeeeee' }}> */}
-              {/* <Navbar.Collapse >
+
+          <Col className='colMenu'>
+            <Navbar className=''>
+              <Navbar.Collapse id='basic-navbar-nav'>
                 <Nav className='mx-auto'>
-                  <Nav.Link className='nav-items mx-3' href='#'>
+                  <Nav.Link className='menu-item' href='#'>
                     Home
                   </Nav.Link>
-                  <Nav.Link className='nav-items mx-3' href='#'>
+                  <Nav.Link className='menu-item' href='#'>
                     About
                   </Nav.Link>
-                  <Nav.Link className='nav-items mx-3' href='#'>
+                  <Nav.Link className='menu-item' href='#'>
                     Services
                   </Nav.Link>
                 </Nav>
-              </Navbar.Collapse> */}
-
-<Col className="colMenu">
-      <Navbar
-
-        className=''
-      >
-        <Navbar.Collapse id='basic-navbar-nav'>
-          <Nav className='mx-auto'>
-            <Nav.Link className='menu-item' href='#'>
-              Home
-            </Nav.Link>
-            <Nav.Link className='menu-item' href='#'>
-              About
-            </Nav.Link>
-            <Nav.Link className='menu-item' href='#'>
-              Services
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-    </Col>
+              </Navbar.Collapse>
+            </Navbar>
+          </Col>
         </Row>
       </Container>
     </>

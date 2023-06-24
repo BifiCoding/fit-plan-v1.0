@@ -1,10 +1,11 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { Container } from 'react-bootstrap';
 
-import { setGender,
+import {
+  setGender,
   setAge,
   setHeight,
   setHeightUnit,
@@ -13,13 +14,12 @@ import { setGender,
   setLifestyle,
   setWant,
   setSteps,
-  setAllergy } from '../toolkitRedux/toolkitSlice';
+  setAllergy,
+} from '../toolkitRedux/toolkitSlice';
 
 import './form.css';
 import PdfDoc from './PdfDoc';
 import Loader from './Loader';
-
-
 
 const API_KEY = ' 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';
 
@@ -28,36 +28,30 @@ function Form() {
   const [messages, setMessages] = useState([]);
   const [serverMessages, setServerMessages] = useState([]);
 
-  // const [gender, setGender] = useState('');
-  // const [age, setAge] = useState('');
-  // const [height, setHeight] = useState('');
-  // const [heightUnit, setHeightUnit] = useState('cm');
-  // const [weight, setWeight] = useState('');
-  // const [weightUnit, setWeightUnit] = useState('kg');
-  // const [lifestyle, setLifestyle] = useState('');
-  // const [want, setWant] = useState('');
-  // const [steps, setSteps] = useState('');
-  // const [allergy, setAllergy] = useState('');
+  const [isChecked, setIsChecked] = useState(false);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const gender = useSelector( state => state.toolkit.gender)
-  const age = useSelector( state => state.toolkit.age)
-  const height = useSelector( state => state.toolkit.height)
-  const heightUnit = useSelector( state => state.toolkit.heightUnit)
-  const weight = useSelector( state => state.toolkit.weight)
-  const weightUnit = useSelector( state => state.toolkit.weightUnit)
-  const lifestyle = useSelector( state => state.toolkit.lifestyle)
-  const want = useSelector( state => state.toolkit.want)
-  const steps = useSelector( state => state.toolkit.steps)
-  const allergy = useSelector( state => state.toolkit.allergy)
-  
+  const gender = useSelector(state => state.toolkit.gender);
+  const age = useSelector(state => state.toolkit.age);
+  const height = useSelector(state => state.toolkit.height);
+  const heightUnit = useSelector(state => state.toolkit.heightUnit);
+  const weight = useSelector(state => state.toolkit.weight);
+  const weightUnit = useSelector(state => state.toolkit.weightUnit);
+  const lifestyle = useSelector(state => state.toolkit.lifestyle);
+  const want = useSelector(state => state.toolkit.want);
+  const steps = useSelector(state => state.toolkit.steps);
+  const allergy = useSelector(state => state.toolkit.allergy);
 
   const navigateTo = useNavigate();
-  
 
-  const handlePayClick = () => {
-    navigateTo(`/payment`);
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+  };
+
+  const handlePayClick = e => {
+    navigateTo('/payment')
   };
 
   const prompt = `${gender}, 
@@ -76,7 +70,6 @@ function Form() {
        If the user specified their initial weight in kg, enter the weight of the ingredients in grams. If the user entered their initial weight in lbs, 
        enter the weight of the ingredients in pounds.
      `;
-
 
   const handleSend = async event => {
     event.preventDefault();
@@ -144,11 +137,12 @@ function Form() {
   return (
     <div>
       <Container>
-        <form className='form-parent shadow'>
+        <form className='form-parent shadow ' onSubmit={handlePayClick}>
           <select
             className='select'
             onChange={e => dispatch(setGender(e.target.value))}
             style={{ color: gender ? 'black' : '#666666' }}
+            required
           >
             <option value='' disabled selected hidden>
               Gender
@@ -164,6 +158,7 @@ function Form() {
             onChange={e => dispatch(setAge(e.target.value))}
             placeholder='Age'
             className='inp'
+            required
           />
 
           <div className='hw-block'>
@@ -172,6 +167,7 @@ function Form() {
               onChange={e => dispatch(setHeight(e.target.value))}
               placeholder='Height'
               className='hw-inp'
+              required
             />
             <select
               className='select-hw'
@@ -188,6 +184,7 @@ function Form() {
               onChange={e => dispatch(setWeight(e.target.value))}
               placeholder='Weight'
               className='hw-inp'
+              required
             />
             <select
               className='select-hw'
@@ -202,6 +199,7 @@ function Form() {
             className='select'
             onChange={e => dispatch(setLifestyle(e.target.value))}
             style={{ color: lifestyle ? 'black' : '#666666' }}
+            required
           >
             <option value='' disabled selected hidden>
               Lifestyle
@@ -215,6 +213,7 @@ function Form() {
             className='select'
             onChange={e => dispatch(setWant(e.target.value))}
             style={{ color: want ? 'black' : '#666666' }}
+            required
           >
             <option value='' disabled selected hidden>
               You would like to lose / maintain / gain weight
@@ -229,6 +228,7 @@ function Form() {
             onChange={e => dispatch(setSteps(e.target.value))}
             placeholder='Steps per day'
             className='inp'
+            required
           />
 
           <textarea
@@ -237,70 +237,26 @@ function Form() {
             rows='5'
             placeholder='Allergy, health problems or dietary restrictions'
             value={allergy}
-            onChange={ e => dispatch(setAllergy(e.target.value))}
+            onChange={e => dispatch(setAllergy(e.target.value))}
           ></textarea>
 
-          <button onClick={handlePayClick} className='send-btn'>
+          <div class='form-check mb-3' style={{maxWidth: '300px'}}>
+            <input
+              type='checkbox'
+              class='form-check-input'
+              id='validationFormCheck1'
+              required
+            />
+            <label class='form-check-label' for='validationFormCheck1'>
+              I agree with <a href='/privacy-policy' style={{fontWeight: '500'}}>terms conditions and privacy policy</a>
+            </label>
+          </div>
+
+          <button className='send-btn' type='submit'>
             Buy
           </button>
-
-
-            
-          
-
-          {serverMessages.length > 0 ? (
-          <div className='download-parent'>
-            <PDFDownloadLink
-              document={<PdfDoc textDiet={serverMessages} />}
-              fileName='Diet by FitPlan'
-              onClick={e => e.preventDefault}
-              style={{ width: '100%', maxWidth: '300px' }}
-            >
-              <button className='download'>Download PDF</button>
-            </PDFDownloadLink>
-          </div>
-        ) : (
-          ''
-        )}
-          
-          {typing && <div className="">
-          Please wait, your personalized diet is creating...
-          <Loader />
-          </div>}
-          
         </form>
-        {serverMessages.length > 0 ? (
-      <div style={{backgroundColor: 'white'}} className='shadow mt-4 pt-3'>
 
-        {messages.map(
-          (message, index) =>
-            message.sender === 'ChatAI' && (
-              <div
-                key={index}
-                style={{ whiteSpace: 'pre-line' }}
-                className='result'
-              >
-                {message.message}
-              </div>
-            )
-        )}
-
-        {serverMessages.length > 0 ? (
-          <div className='download-parent'>
-            <PDFDownloadLink
-              document={<PdfDoc textDiet={serverMessages} />}
-              fileName='Diet by FitPlan'
-              onClick={e => e.preventDefault}
-              style={{ width: '100%', maxWidth: '300px' }}
-            >
-              <button className='download'>Download PDF</button>
-            </PDFDownloadLink>
-          </div>
-        ) : (
-          ''
-        )}
-        </div>
-        ):('')}
       </Container>
     </div>
   );
