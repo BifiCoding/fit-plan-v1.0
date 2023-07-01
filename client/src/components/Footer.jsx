@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function Footer() {
   return (
-    <footer className="page-footer font-small blue pt-1 mt-3" style={{backgroundColor:'#eeeeee'}}>
+    <footer className="page-footer font-small blue pt-1 mt-5" style={{backgroundColor:'#eeeeee'}}>
     {/* <div className="container-fluid text-center text-md-left">
         <div className="row">
             <div className="col-md-6 mt-md-0 mt-3">

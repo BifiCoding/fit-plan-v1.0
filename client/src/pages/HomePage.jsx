@@ -1,17 +1,15 @@
-import React from 'react';
+import React, {useRef, useEffect} from 'react';
 import './homepage.css';
 
 import Form from '../components/Form';
 import Footer from '../components/Footer';
-import Loader from '../components/Loader';
+
+
 
 import {
   Col,
   Container,
-  Navbar,
-  Nav,
   Row,
-  Button,
   Image,
   Card,
 } from 'react-bootstrap';
@@ -19,22 +17,31 @@ import {
 import logo from '../img/main-photo.jpeg';
 import GreenFresh from '../img/green-fresh.jpeg';
 import Veges from '../img/veges.webp';
-import Weight from '../img/weight.webp'
-import AllergyFood from '../img/allergy-food.jpeg'
+import Weight from '../img/weight.webp';
+import AllergyFood from '../img/allergy-food.jpeg';
+
+let lol = 'ekkekekekekk'
 
 function HomePage() {
+  
   const goToForm = () => {
-    const element = document.getElementById('formHomePage');
+    const element = document.querySelector('#formHomePage');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
+  const videoRef = useRef(null);
+
+useEffect(() => {
+  if (videoRef.current) {
+    videoRef.current.play();
+  }
+}, []);
+
   return (
     <div>
-      <div style={{ backgroundColor: '#eeeeee' }}>
-     
-      </div>
+      <div style={{ backgroundColor: '#eeeeee' }}></div>
 
       <div className='header-slider shadow'>
         <img src={logo} alt='' className='header-photo' />
@@ -54,7 +61,7 @@ function HomePage() {
 
       <div className='about'>
         <Container>
-          <Row className='justify-content-center shadow'>
+          <Row className='justify-content-center'>
             <Col
               md={6}
               xs={12}
@@ -63,13 +70,6 @@ function HomePage() {
             >
               <div
                 className='text-about-container'
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '100%',
-                  WebkitFlexDirection: 'column',
-                }}
               >
                 <div className='headline-about'>About FitPlan</div>
                 <div className='text-about'>
@@ -85,7 +85,7 @@ function HomePage() {
               md={6}
               xs={12}
               className='img-about-block order-md-2'
-              style={{ padding: 0,  maxWidth: '600px' }}
+              style={{ padding: 0, maxWidth: '600px' }}
             >
               <Image src={GreenFresh} alt='' className='about-img' />
             </Col>
@@ -94,15 +94,15 @@ function HomePage() {
       </div>
 
       <div className='suport'>
-        <Container className='text-center pt-2'>
+        <Container className='text-center'>
           <span className='headline'>Supporting Your Success</span>
         </Container>
 
-        <Container style={{ paddingBottom: '20px' }}>
+        <Container style={{ paddingBottom: '10px', paddingTop: '20px' }}>
           <Row>
             <Col xs={12} sm={12} md={4} lg={4} xl={4}>
               <Card
-                className='my-3 text-center shadow mb-2'
+                className='text-center shadow mb-2'
                 style={{ border: 'none' }}
                 id='card'
               >
@@ -142,7 +142,7 @@ function HomePage() {
 
             <Col xs={12} sm={12} md={4} lg={4} xl={4}>
               <Card
-                className='my-3 text-center shadow mb-2'
+                className='text-center shadow mb-2'
                 style={{ border: 'none' }}
                 id='card'
               >
@@ -172,6 +172,7 @@ function HomePage() {
                     >
                       Control your body weight
                     </Card.Title>
+
                     <Card.Title as='div' style={{ fontSize: '1.15em' }}>
                       Better Decisions
                     </Card.Title>
@@ -182,7 +183,7 @@ function HomePage() {
 
             <Col xs={12} sm={12} md={4} lg={4} xl={4}>
               <Card
-                className='my-3 text-center shadow mb-2'
+                className='text-center shadow mb-2'
                 style={{ border: 'none' }}
                 id='card'
               >
@@ -229,13 +230,13 @@ function HomePage() {
         </div>
       </Container>
 
-      <Form className='mt-3' />
+      <Form />
 
+
+
+ 
       <Footer />
-
-
-      </div>
-
+    </div>
   );
 }
 

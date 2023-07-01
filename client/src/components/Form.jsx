@@ -30,6 +30,7 @@ function Form() {
 
   const [isChecked, setIsChecked] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -48,10 +49,11 @@ function Form() {
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
+    setIsButtonClicked(true);
   };
 
   const handlePayClick = e => {
-    navigateTo('/payment')
+    navigateTo('/payment');
   };
 
   const prompt = `${gender}, 
@@ -138,11 +140,19 @@ function Form() {
     <div>
       <Container>
         <form className='form-parent shadow ' onSubmit={handlePayClick}>
+          <input
+            value={age}
+            onChange={e => dispatch(setAge(e.target.value))}
+            placeholder='Age'
+            className='inp'
+            required
+          />
+
           <select
+            required
             className='select'
             onChange={e => dispatch(setGender(e.target.value))}
             style={{ color: gender ? 'black' : '#666666' }}
-            required
           >
             <option value='' disabled selected hidden>
               Gender
@@ -152,14 +162,11 @@ function Form() {
             <option value='Other'>Other</option>
             <option value='Prefer not to say'>Prefer not to say</option>
           </select>
-
-          <input
-            value={age}
-            onChange={e => dispatch(setAge(e.target.value))}
-            placeholder='Age'
-            className='inp'
-            required
-          />
+          {isButtonClicked && gender == 'Gender' ? (
+            <span>Select gender please</span>
+          ) : (
+            ''
+          )}
 
           <div className='hw-block'>
             <input
@@ -240,23 +247,38 @@ function Form() {
             onChange={e => dispatch(setAllergy(e.target.value))}
           ></textarea>
 
-          <div class='form-check mb-3' style={{maxWidth: '300px'}}>
+          <div className='form-check mb-3' style={{ maxWidth: '300px' }}>
             <input
               type='checkbox'
-              class='form-check-input'
+              className='form-check-input'
               id='validationFormCheck1'
               required
             />
-            <label class='form-check-label' for='validationFormCheck1'>
-              I agree with <a href='/privacy-policy' style={{fontWeight: '500'}}>terms conditions and privacy policy</a>
+            <label className='form-check-label' htmlFor='validationFormCheck1'>
+              I agree with{' '}
+              <a href='/privacy-policy' style={{ fontWeight: '500' }}>
+                terms conditions and privacy policy
+              </a>
             </label>
           </div>
 
-          <button className='send-btn' type='submit'>
-            Buy
-          </button>
+          {age && age < 18 ? (
+            <div style={{minWidth:'300px'}}>
+              <p style={{textAlign: 'center', color: 'red'}}>Sorry you are not 18 years old</p>
+              <button className='send-btn' type='submit' disabled style={{width: '100%'}}>
+                Buy
+              </button>
+            </div>
+          ) : age == 0 || age >= 18 ? (
+            <button
+              className='send-btn'
+              type='submit'
+              onClick={() => setIsButtonClicked(true)}
+            >
+              Buy
+            </button>
+          ) : null}
         </form>
-
       </Container>
     </div>
   );

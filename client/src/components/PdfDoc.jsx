@@ -1,6 +1,9 @@
 import React from 'react';
-import { Page, Text, Image, Document, StyleSheet } from '@react-pdf/renderer';
+import { Page, Text, Image, Document, StyleSheet, Font} from '@react-pdf/renderer';
 import Logo from '../img/Logo.png';
+
+
+Font.register({ family: 'Roboto', src: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap' });
 
 const styles = StyleSheet.create({
   body: {
@@ -16,7 +19,7 @@ const styles = StyleSheet.create({
     margin: 12,
     fontSize: 14,
     textAlign: 'justify',
-    fontFamily: 'Times-Roman',
+    fontFamily: 'Roboto',
   },
   image: {
     height: 65,

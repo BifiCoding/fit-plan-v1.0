@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -41,7 +41,7 @@ function FormPaid() {
       
 
       Based on the previous data, calculate daily calorie requirements and create a personalized meal plan. 
-      Write an individualized meal plan for each day of the week in relation to the data you have obtained, and divide it into meals,
+      Write an individualized meal plan for each day of the week(Monday, Tuesday, Wednesday, Thursday, Friday, Saturday and Sunday) in relation to the data you have obtained, and divide it into meals,
        indicating the dishes according to the calorie content you have calculated. ADD THE WEIGHT OF THE INGREDIENTS FOR EACH DISH in grams and pounds:
        If the user specified their initial weight in kg, enter the weight of the ingredients in grams. If the user entered their initial weight in lbs, 
        enter the weight of the ingredients in pounds.
@@ -49,14 +49,6 @@ function FormPaid() {
 
   const handleGenerete = async event => {
     event.preventDefault();
-    console.log(`Age: ${age},
-        Height: ${height} ${heightUnit}, 
-        Weight: ${weight} ${weightUnit}, 
-        Lifestyle: ${lifestyle}, 
-        ${want}, 
-        Number of steps per day: ${steps}, 
-        Allergy, health problems or dietary restrictions: ${allergy} ,`);
-
     const newMessage = {
       message: prompt,
       sender: 'user',
@@ -97,7 +89,7 @@ function FormPaid() {
     });
 
     const data = await response.json();
-    console.log(data);
+    
 
     setMessages([
       ...chatMessage,
@@ -117,23 +109,20 @@ function FormPaid() {
     setTyping(false);
   }
 
+
+
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const paymentIntent = searchParams.get('payment_intent');
+
+    
 
     if (paymentIntent) {
       // URL містить параметр payment_intent, виконуємо ваш скрипт або дії
       // ...
       // Ваш код для випадку, коли URL містить параметр payment_intent
       const handleGenerete = async event => {
-        console.log(`Age: ${age},
-            Height: ${height} ${heightUnit}, 
-            Weight: ${weight} ${weightUnit}, 
-            Lifestyle: ${lifestyle}, 
-            ${want}, 
-            Number of steps per day: ${steps}, 
-            Allergy, health problems or dietary restrictions: ${allergy} ,`);
-
         const newMessage = {
           message: prompt,
           sender: 'user',
@@ -177,7 +166,7 @@ function FormPaid() {
         );
 
         const data = await response.json();
-        console.log(data);
+        
 
         setMessages([
           ...chatMessage,
@@ -204,6 +193,8 @@ function FormPaid() {
     }
   }, [location.search, navigate]);
 
+
+
   if (serverMessages.length >= 1) {
     localStorage.clear('/');
   }
@@ -212,41 +203,80 @@ function FormPaid() {
     navigate('/');
   }
 
+
+
+  const weekdays = ['Monday:', 'Tuesday:', 'Wednesday:', 'Thursday:', 'Friday:', 'Saturday:', 'Sunday:'];
+  const weekdaysRegex =
+    /(Monday:|Tuesday:|Wednesday:|Thursday:|Friday:|Saturday:|Sunday:)/gi;
+    
+
   return (
     <div>
-      
       <div style={{ maxWidth: '600px', margin: '0 auto' }} className='shadow'>
         {typing && (
-          <div className='text-center'>
+          <div
+            className='text-center'
+            style={{ paddingTop: '10px', fontWeight: '500', fontSize: '18px' }}
+          >
             Please wait, your personalized diet is creating...
             <Loader />
+            <video
+              loop
+              className='fillWidth my-2 '
+              muted
+              controls
+              style={{ maxWidth: '550px' }}
+              autoPlay
+            >
+              <source
+                src='https://res.cloudinary.com/dsnq7fnsl/video/upload/v1687882410/FitPlan_um64om.mov'
+                type='video/mp4'
+              />
+            </video>
           </div>
         )}
 
         {localStorage.length === 0 ? (
           <>
+            <div
+              className=''
+              style={{
+                textAlign: 'center',
+                paddingTop: '10px',
+                fontWeight: '600',
+                fontSize: '20px',
+              }}
+            >
+              Your 100% personalized meal plan:
+            </div>
             {serverMessages.length > 0 && (
-              <div style={{ backgroundColor: '' }} className=' mt-4 pt-3'>
-                {messages.map(
-                  (message, index) =>
-                    message.sender === 'ChatAI' && (
-                      <div
-                        key={index}
-                        style={{ whiteSpace: 'pre-line' }}
-                        className='result'
-                      >
-                        {message.message}
-                      </div>
-                    )
+              <div style={{ backgroundColor: '' }} className='pt-1'>
+                {messages.map((message, index) =>
+                  message.sender === 'ChatAI' ? (
+                    <div
+                      key={index}
+                      style={{ whiteSpace: 'pre-line' }}
+                      className='result'
+                    >
+                      {message.message
+                        .split(weekdaysRegex)
+                        .map((part, index) =>
+                          weekdays.includes(part) ? (
+                            <strong key={index}>{part}</strong>
+                          ) : (
+                            part
+                          )
+                        )}
+                    </div>
+                  ) : null
                 )}
-
               </div>
             )}
           </>
         ) : (
           <>
             {serverMessages.length > 0 && (
-              <div style={{ backgroundColor: '' }} className=' mt-4 pt-3'>
+              <div style={{ backgroundColor: '' }} className='pt-1'>
                 {messages.map(
                   (message, index) =>
                     message.sender === 'ChatAI' && (
@@ -261,21 +291,19 @@ function FormPaid() {
                 )}
               </div>
             )}
-            
           </>
-          
         )}
         {serverMessages.length > 0 && (
-                  <div className='download-parent'>
-                    <PDFDownloadLink
-                      document={<PdfDoc textDiet={serverMessages} />}
-                      fileName='Diet by FitPlan'
-                      style={{ width: '100%', maxWidth: '300px' }}
-                    >
-                      <button className='download'>Download PDF</button>
-                    </PDFDownloadLink>
-                  </div>
-                )}
+          <div className='download-parent'>
+            <PDFDownloadLink
+              document={<PdfDoc textDiet={serverMessages} />}
+              fileName='Diet by FitPlan'
+              style={{ width: '100%', maxWidth: '300px' }}
+            >
+              <button className='download'>Download PDF</button>
+            </PDFDownloadLink>
+          </div>
+        )}
         {/* <Footer /> */}
       </div>
     </div>

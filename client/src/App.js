@@ -9,11 +9,13 @@ import Header from './components/Header';
 
 
 
+
 function App() {
   return (
     <main>
       <BrowserRouter>
       <Header />
+
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/payment" element={<Payment />} />

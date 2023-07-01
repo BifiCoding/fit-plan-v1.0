@@ -81,7 +81,7 @@ select{
   .inp{
     width: 100%;
     max-width: 300px; /* You can adjust the max-width to your liking */
-    padding: 0px 10px 10px;;
+    padding-left: 10px;
     border: none;
     border-bottom: 1px solid #cccccc;
     margin-bottom: 20px;
@@ -118,12 +118,13 @@ select{
 
   .hw-inp{
     width: 80%;
-    padding: 0px 10px 10px;;
+    padding-left: 10px;
+    height: 35px;
   }
 
   .select-hw{
     width: 20%;
-    padding: 6.5px;
+    height: 35px;
   }
 
   @media screen and (min-width: 200px) and (max-width: 580px) {

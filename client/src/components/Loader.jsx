@@ -4,6 +4,6 @@ import './Loader.css'
 
 export default function Loader() {
   return (
-    <div class="spinner text-center" style={{margin: '0 auto'}}></div>
+    <div class="spinner text-center" style={{margin: '0 auto', marginTop:'10px', marginBottom: '7px'}}></div>
   );
 }

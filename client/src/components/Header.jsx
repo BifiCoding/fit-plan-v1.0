@@ -12,6 +12,20 @@ function Header() {
     navigateTo(`/`);
   };
 
+  const goToAbout = () => {
+    const element = document.querySelector('.text-about-container');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const goToServices = () => {
+    const element = document.querySelector('#formHomePage');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <>
       <Container>
@@ -38,10 +52,10 @@ function Header() {
                   <Nav.Link className='menu-item' href='#'>
                     Home
                   </Nav.Link>
-                  <Nav.Link className='menu-item' href='#'>
+                  <Nav.Link className='menu-item' href='/' onClick={goToAbout}>
                     About
                   </Nav.Link>
-                  <Nav.Link className='menu-item' href='#'>
+                  <Nav.Link className='menu-item' href='/' onClick={goToServices}>
                     Services
                   </Nav.Link>
                 </Nav>
