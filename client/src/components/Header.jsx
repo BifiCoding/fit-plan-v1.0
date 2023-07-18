@@ -3,10 +3,11 @@ import { Navbar, Nav, Row, Col, Container } from 'react-bootstrap';
 import './header.css';
 
 import logo from '../img/Logo.png';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function Header() {
   const navigateTo = useNavigate();
+  const location = useLocation();
 
   const handleClick = () => {
     navigateTo(`/`);
@@ -49,15 +50,45 @@ function Header() {
             <Navbar className=''>
               <Navbar.Collapse id='basic-navbar-nav'>
                 <Nav className='mx-auto'>
-                  <Nav.Link className='menu-item' href='#'>
-                    Home
+                  {location.pathname === '/' ? (
+                    <>
+                      <Nav.Link
+                        className='menu-item'
+                        to='/'
+                        activeClassName='active'
+                      >
+                        Home
+                      </Nav.Link>
+                      <Nav.Link
+                        className='menu-item'
+                        href='#'
+                        onClick={goToAbout}
+                      >
+                        About
+                      </Nav.Link>
+                      <Nav.Link
+                        className='menu-item'
+                        href='#'
+                        onClick={goToServices}
+                      >
+                        Services
+                      </Nav.Link>
+                      <Nav.Link
+                        className='menu-item'
+                        href='#'
+                        onClick={goToServices}
+                      >
+                        Diet
+                      </Nav.Link>
+                    </>
+                  ) : (
+                    <Nav.Link
+                    className='menu-item'
+                    onClick={handleClick}
+                  >
+                    Go to Home
                   </Nav.Link>
-                  <Nav.Link className='menu-item' href='/' onClick={goToAbout}>
-                    About
-                  </Nav.Link>
-                  <Nav.Link className='menu-item' href='/' onClick={goToServices}>
-                    Services
-                  </Nav.Link>
+                  )}
                 </Nav>
               </Navbar.Collapse>
             </Navbar>

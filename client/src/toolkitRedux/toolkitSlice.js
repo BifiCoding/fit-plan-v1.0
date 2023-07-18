@@ -3,8 +3,9 @@ import { createSlice } from '@reduxjs/toolkit';
 const toolkitSlice = createSlice({
   name: 'toolkit',
   initialState: {
-    gender: '',
     age: '',
+    email: '',
+    gender: '',
     height: '',
     heightUnit: 'cm',
     weight: '',
@@ -16,11 +17,14 @@ const toolkitSlice = createSlice({
   },
 
   reducers: {
-    setGender: (state, action) => {
-      state.gender = action.payload;
-    },
     setAge: (state, action) => {
       state.age = action.payload;
+    },
+    setEmail: (state, action) => {
+      state.email = action.payload;
+    },
+    setGender: (state, action) => {
+      state.gender = action.payload;
     },
     setHeight: (state, action) => {
       state.height = action.payload;
@@ -50,8 +54,9 @@ const toolkitSlice = createSlice({
 });
 
 export const {
-  setGender,
   setAge,
+  setEmail,
+  setGender,
   setHeight,
   setHeightUnit,
   setWeight,

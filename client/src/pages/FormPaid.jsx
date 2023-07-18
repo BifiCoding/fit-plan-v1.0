@@ -3,9 +3,8 @@ import { useSelector } from 'react-redux';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import Form from '../components/Form';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import './FormPaid.css'
+
 import PdfDoc from '../components/PdfDoc';
 import Loader from '../components/Loader';
 
@@ -15,8 +14,9 @@ function FormPaid() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const gender = useSelector(state => state.toolkit.gender);
   const age = useSelector(state => state.toolkit.age);
+  const mail = useSelector(state => state.toolkit.mail);
+  const gender = useSelector(state => state.toolkit.gender);
   const height = useSelector(state => state.toolkit.height);
   const heightUnit = useSelector(state => state.toolkit.heightUnit);
   const weight = useSelector(state => state.toolkit.weight);
@@ -41,11 +41,11 @@ function FormPaid() {
       
 
       Based on the previous data, calculate daily calorie requirements and create a personalized meal plan. 
-      Write an individualized meal plan for each day of the week(Monday, Tuesday, Wednesday, Thursday, Friday, Saturday and Sunday) in relation to the data you have obtained, and divide it into meals,
-       indicating the dishes according to the calorie content you have calculated. ADD THE WEIGHT OF THE INGREDIENTS FOR EACH DISH in grams and pounds:
-       If the user specified their initial weight in kg, enter the weight of the ingredients in grams. If the user entered their initial weight in lbs, 
-       enter the weight of the ingredients in pounds.
-     `;
+      Write an individualized meal plan for EACH DAY of the WEEK(Monday, Tuesday, Wednesday, Thursday, Friday, Saturday and Sunday) in relation to the data you have obtained,  and divide it into meals,
+      indicating the dishes according to the calorie content you have calculated. For each day NEW MEAL PLAN !!!. !!! ADD THE WEIGHT OF THE INGREDIENTS FOR EACH DISH in grams or pounds !!! :
+      If the user specified their initial weight in kg, enter the weight of the ingredients in grams. If the user entered their initial weight in lbs, 
+      enter the weight of the ingredients in pounds.
+      `;
 
   const handleGenerete = async event => {
     event.preventDefault();
@@ -293,6 +293,7 @@ function FormPaid() {
             )}
           </>
         )}
+
         {serverMessages.length > 0 && (
           <div className='download-parent'>
             <PDFDownloadLink

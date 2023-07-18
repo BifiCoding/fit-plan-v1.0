@@ -19,8 +19,9 @@ import GreenFresh from '../img/green-fresh.jpeg';
 import Veges from '../img/veges.webp';
 import Weight from '../img/weight.webp';
 import AllergyFood from '../img/allergy-food.jpeg';
+import FormExample from '../components/TestForm';
 
-let lol = 'ekkekekekekk'
+
 
 function HomePage() {
   
@@ -231,8 +232,6 @@ useEffect(() => {
       </Container>
 
       <Form />
-
-
 
  
       <Footer />

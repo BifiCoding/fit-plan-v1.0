@@ -5,8 +5,9 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 import { Container } from 'react-bootstrap';
 
 import {
-  setGender,
   setAge,
+  setEmail,
+  setGender,
   setHeight,
   setHeightUnit,
   setWeight,
@@ -18,24 +19,15 @@ import {
 } from '../toolkitRedux/toolkitSlice';
 
 import './form.css';
-import PdfDoc from './PdfDoc';
-import Loader from './Loader';
 
-const API_KEY = ' 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';
 
 function Form() {
-  const [typing, setTyping] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const [serverMessages, setServerMessages] = useState([]);
-
-  const [isChecked, setIsChecked] = useState(false);
-  const [isButtonClicked, setIsButtonClicked] = useState(false);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const dispatch = useDispatch();
 
-  const gender = useSelector(state => state.toolkit.gender);
   const age = useSelector(state => state.toolkit.age);
+  const email = useSelector(state => state.toolkit.email);
+  const gender = useSelector(state => state.toolkit.gender);
   const height = useSelector(state => state.toolkit.height);
   const heightUnit = useSelector(state => state.toolkit.heightUnit);
   const weight = useSelector(state => state.toolkit.weight);
@@ -47,93 +39,37 @@ function Form() {
 
   const navigateTo = useNavigate();
 
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-    setIsButtonClicked(true);
-  };
-
   const handlePayClick = e => {
     navigateTo('/payment');
   };
 
-  const prompt = `${gender}, 
-      Age: ${age},
-      Height: ${height} ${heightUnit}, 
-      Weight: ${weight} ${weightUnit}, 
-      Lifestyle: ${lifestyle}, 
-      ${want}, 
-      Number of steps per day: ${steps},
-      Allergy, health problems or dietary restrictions: ${allergy} ,
-      
+  const[buttonClicked, setButtonClicked] = useState(false)
 
-      Based on the previous data, calculate daily calorie requirements and create a personalized meal plan. 
-      Write an individualized meal plan for each day of the week in relation to the data you have obtained, and divide it into meals,
-       indicating the dishes according to the calorie content you have calculated. ADD THE WEIGHT OF THE INGREDIENTS FOR EACH DISH in grams and pounds:
-       If the user specified their initial weight in kg, enter the weight of the ingredients in grams. If the user entered their initial weight in lbs, 
-       enter the weight of the ingredients in pounds.
-     `;
+  const errors = {};
 
-  const handleSend = async event => {
-    event.preventDefault();
-
-    const newMessage = {
-      message: prompt,
-      sender: 'user',
-      direction: 'outgoing',
-    };
-
-    const newMessages = [...messages, newMessage];
-    setMessages(newMessages);
-
-    setTyping(true);
-    await processMessageToChatAI(newMessages);
-  };
-
-  async function processMessageToChatAI(chatMessage) {
-    let apiMessages = chatMessage.map(messageObject => {
-      let role = '';
-      if (messageObject.sender === 'ChatAI') {
-        role = 'assistant';
-      } else {
-        role = 'user';
-      }
-
-      return { role: role, content: messageObject.message };
-    });
-
-    const apiRequestBody = {
-      model: 'gpt-3.5-turbo',
-      messages: [...apiMessages],
-    };
-
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        Authorization: 'Bearer ' + API_KEY,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(apiRequestBody),
-    });
-
-    const data = await response.json();
-    console.log(data);
-
-    setMessages([
-      ...chatMessage,
-      {
-        message: data.choices[0].message.content,
-        sender: 'ChatAI',
-      },
-    ]);
-
-    setServerMessages([
-      ...serverMessages,
-      {
-        message: data.choices[0].message.content,
-      },
-    ]);
-
-    setTyping(false);
+  if (age.trim() === '') {
+    errors.age = 'Age cannot be blank';
+  }
+  if (email.trim() === '') {
+    errors.email = 'Email cannot be blank';
+  }
+  if (gender.trim() === '') {
+    errors.gender = 'Gender cannot be blank';
+  }
+  if (height.trim() === '') {
+    errors.height = 'Height cannot be blank';
+  }
+  if (weight.trim() === '') {
+    errors.weight = 'Weight cannot be blank';
+  }
+  if (lifestyle.trim() === '') {
+    errors.lifestyle = 'Lifestyle type cannot be blank';
+  }
+  if (want.trim() === '') {
+    errors.want = 'This field cannot be blank';
+  }
+  if (steps.trim() === '') {
+    errors.steps = 'Steps cannot be blank';
   }
 
   return (
@@ -141,12 +77,23 @@ function Form() {
       <Container>
         <form className='form-parent shadow ' onSubmit={handlePayClick}>
           <input
+            required
             value={age}
             onChange={e => dispatch(setAge(e.target.value))}
             placeholder='Age'
             className='inp'
-            required
+            type='text'
           />
+          {errors.age && buttonClicked && <div className='error'> <small>{errors.age}</small> </div>}
+
+          <input
+            required
+            value={email}
+            onChange={e => dispatch(setEmail(e.target.value))}
+            placeholder='Your Email'
+            className='inp'
+          />
+          {errors.email && buttonClicked && <div className='error'> <small>{errors.email}</small> </div>}
 
           <select
             required
@@ -162,11 +109,9 @@ function Form() {
             <option value='Other'>Other</option>
             <option value='Prefer not to say'>Prefer not to say</option>
           </select>
-          {isButtonClicked && gender == 'Gender' ? (
-            <span>Select gender please</span>
-          ) : (
-            ''
-          )}
+
+          {errors.gender && buttonClicked && <div className='error'><small>{errors.gender}</small></div>}
+
 
           <div className='hw-block'>
             <input
@@ -185,6 +130,8 @@ function Form() {
               <option value='inch'>inch</option>
             </select>
           </div>
+          {errors.height && buttonClicked && <div className='error'><small>{errors.height}</small></div>}
+
           <div className='hw-block'>
             <input
               value={weight}
@@ -201,6 +148,7 @@ function Form() {
               <option value='lb'>lb</option>
             </select>
           </div>
+          {errors.weight && buttonClicked && <div className='error'><small>{errors.weight}</small></div>}
 
           <select
             className='select'
@@ -215,6 +163,7 @@ function Form() {
             <option value='Not active'>Not active</option>
             <option value='Medium'>Medium</option>
           </select>
+          {errors.lifestyle && buttonClicked && <div className='error'> <small>{errors.lifestyle}</small> </div>}
 
           <select
             className='select'
@@ -229,7 +178,7 @@ function Form() {
             <option value='Maintain weight'>Maintain weight</option>
             <option value='Gain weight'>Gain weight</option>
           </select>
-
+          {errors.want && buttonClicked && <div className='error'> <small>{errors.want}</small> </div>}
           <input
             value={steps}
             onChange={e => dispatch(setSteps(e.target.value))}
@@ -237,6 +186,7 @@ function Form() {
             className='inp'
             required
           />
+          {errors.steps && buttonClicked && <div className='error'><small>{errors.steps}</small></div>}
 
           <textarea
             className='textarea-form'
@@ -247,7 +197,7 @@ function Form() {
             onChange={e => dispatch(setAllergy(e.target.value))}
           ></textarea>
 
-          <div className='form-check mb-3' style={{ maxWidth: '300px' }}>
+          <div className='form-check mb-3' style={{ maxWidth: '300px', marginTop: '20px' }}>
             <input
               type='checkbox'
               className='form-check-input'
@@ -255,7 +205,7 @@ function Form() {
               required
             />
             <label className='form-check-label' htmlFor='validationFormCheck1'>
-              I agree with{' '}
+              I agree with
               <a href='/privacy-policy' style={{ fontWeight: '500' }}>
                 terms conditions and privacy policy
               </a>
@@ -264,7 +214,7 @@ function Form() {
 
           {age && age < 18 ? (
             <div style={{minWidth:'300px'}}>
-              <p style={{textAlign: 'center', color: 'red'}}>Sorry you are not 18 years old</p>
+              <p style={{textAlign: 'center', color: 'red'}}>Sorry, you are not 18 years old</p>
               <button className='send-btn' type='submit' disabled style={{width: '100%'}}>
                 Buy
               </button>
@@ -273,7 +223,7 @@ function Form() {
             <button
               className='send-btn'
               type='submit'
-              onClick={() => setIsButtonClicked(true)}
+              onClick={() => setButtonClicked(true)}
             >
               Buy
             </button>
