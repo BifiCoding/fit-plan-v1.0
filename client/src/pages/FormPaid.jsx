@@ -8,7 +8,7 @@ import './FormPaid.css'
 import PdfDoc from '../components/PdfDoc';
 import Loader from '../components/Loader';
 
-const API_KEY = ' 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';
+const API_KEY = '';
 
 function FormPaid() {
   const location = useLocation();
